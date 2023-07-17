@@ -1,0 +1,246 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    DELETE
+    NOT
+    OR
+    SEMICOLON
+    SET
+    UPDATE
+    WHERE
+
+Grammar
+
+Rule 0     S' -> insert_statement
+Rule 1     insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+Rule 2     column_list -> IDENTIFIER
+Rule 3     column_list -> column_list COMMA IDENTIFIER
+Rule 4     value_list -> value
+Rule 5     value_list -> value_list COMMA value
+Rule 6     value -> STRING
+Rule 7     value -> NUMBER
+Rule 8     value -> NULL
+Rule 9     select_statement -> SELECT select_list FROM table_expression
+Rule 10    select_list -> select_item
+Rule 11    select_list -> select_list COMMA select_item
+Rule 12    select_item -> IDENTIFIER
+Rule 13    select_item -> IDENTIFIER AS IDENTIFIER
+Rule 14    table_expression -> IDENTIFIER
+Rule 15    table_expression -> table_expression COMMA IDENTIFIER
+
+Terminals, with rules where they appear
+
+AND                  : 
+AS                   : 13
+COMMA                : 3 5 11 15
+DELETE               : 
+FROM                 : 9
+IDENTIFIER           : 1 2 3 12 13 13 14 15
+INSERT               : 1
+INTO                 : 1
+LPAREN               : 1 1
+NOT                  : 
+NULL                 : 8
+NUMBER               : 7
+OR                   : 
+RPAREN               : 1 1
+SELECT               : 9
+SEMICOLON            : 
+SET                  : 
+STRING               : 6
+UPDATE               : 
+VALUES               : 1
+WHERE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+column_list          : 1 3
+insert_statement     : 0
+select_item          : 10 11
+select_list          : 9 11
+select_statement     : 
+table_expression     : 9 15
+value                : 4 5
+value_list           : 1 5
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . insert_statement
+    (1) insert_statement -> . INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    INSERT          shift and go to state 2
+
+    insert_statement               shift and go to state 1
+
+state 1
+
+    (0) S' -> insert_statement .
+
+
+
+state 2
+
+    (1) insert_statement -> INSERT . INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    INTO            shift and go to state 3
+
+
+state 3
+
+    (1) insert_statement -> INSERT INTO . IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    IDENTIFIER      shift and go to state 4
+
+
+state 4
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER . LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    LPAREN          shift and go to state 5
+
+
+state 5
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN . column_list RPAREN VALUES LPAREN value_list RPAREN
+    (2) column_list -> . IDENTIFIER
+    (3) column_list -> . column_list COMMA IDENTIFIER
+
+    IDENTIFIER      shift and go to state 6
+
+    column_list                    shift and go to state 7
+
+state 6
+
+    (2) column_list -> IDENTIFIER .
+
+    RPAREN          reduce using rule 2 (column_list -> IDENTIFIER .)
+    COMMA           reduce using rule 2 (column_list -> IDENTIFIER .)
+
+
+state 7
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list . RPAREN VALUES LPAREN value_list RPAREN
+    (3) column_list -> column_list . COMMA IDENTIFIER
+
+    RPAREN          shift and go to state 8
+    COMMA           shift and go to state 9
+
+
+state 8
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN . VALUES LPAREN value_list RPAREN
+
+    VALUES          shift and go to state 10
+
+
+state 9
+
+    (3) column_list -> column_list COMMA . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 11
+
+
+state 10
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES . LPAREN value_list RPAREN
+
+    LPAREN          shift and go to state 12
+
+
+state 11
+
+    (3) column_list -> column_list COMMA IDENTIFIER .
+
+    RPAREN          reduce using rule 3 (column_list -> column_list COMMA IDENTIFIER .)
+    COMMA           reduce using rule 3 (column_list -> column_list COMMA IDENTIFIER .)
+
+
+state 12
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN . value_list RPAREN
+    (4) value_list -> . value
+    (5) value_list -> . value_list COMMA value
+    (6) value -> . STRING
+    (7) value -> . NUMBER
+    (8) value -> . NULL
+
+    STRING          shift and go to state 15
+    NUMBER          shift and go to state 16
+    NULL            shift and go to state 17
+
+    value_list                     shift and go to state 13
+    value                          shift and go to state 14
+
+state 13
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list . RPAREN
+    (5) value_list -> value_list . COMMA value
+
+    RPAREN          shift and go to state 18
+    COMMA           shift and go to state 19
+
+
+state 14
+
+    (4) value_list -> value .
+
+    RPAREN          reduce using rule 4 (value_list -> value .)
+    COMMA           reduce using rule 4 (value_list -> value .)
+
+
+state 15
+
+    (6) value -> STRING .
+
+    RPAREN          reduce using rule 6 (value -> STRING .)
+    COMMA           reduce using rule 6 (value -> STRING .)
+
+
+state 16
+
+    (7) value -> NUMBER .
+
+    RPAREN          reduce using rule 7 (value -> NUMBER .)
+    COMMA           reduce using rule 7 (value -> NUMBER .)
+
+
+state 17
+
+    (8) value -> NULL .
+
+    RPAREN          reduce using rule 8 (value -> NULL .)
+    COMMA           reduce using rule 8 (value -> NULL .)
+
+
+state 18
+
+    (1) insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN .
+
+    $end            reduce using rule 1 (insert_statement -> INSERT INTO IDENTIFIER LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN .)
+
+
+state 19
+
+    (5) value_list -> value_list COMMA . value
+    (6) value -> . STRING
+    (7) value -> . NUMBER
+    (8) value -> . NULL
+
+    STRING          shift and go to state 15
+    NUMBER          shift and go to state 16
+    NULL            shift and go to state 17
+
+    value                          shift and go to state 20
+
+state 20
+
+    (5) value_list -> value_list COMMA value .
+
+    RPAREN          reduce using rule 5 (value_list -> value_list COMMA value .)
+    COMMA           reduce using rule 5 (value_list -> value_list COMMA value .)
+
