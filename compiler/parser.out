@@ -2,110 +2,130 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    BIGINT
-    COMMA
-    COMMENT
+    ADD
+    ALTER
+    ASC
+    BY
+    COLUMN
     CREATE
     DELETE
-    DIVIDE
-    ELSE
-    EQUAL
-    FLOAT
-    FOR
-    ID
-    IF
+    DESC
+    DROP
+    FOREIGN
+    FULL
+    GROUP
+    HAVING
+    INNER
     INSERT
+    INTO
+    JOIN
+    KEY
+    LEFT
+    LIMIT
     LPAREN
-    MINUS
-    NUMBER
-    PLUS
-    PRINT
+    ON
+    ORDER
+    OUTER
+    PRIMARY
+    REFERENCES
+    RIGHT
     RPAREN
-    STRING
+    SEMICOLON
+    SET
     TABLE
-    THEN
-    TIMES
-    WHERE
-    WHILE
+    UPDATE
+    VALUES
 
 Grammar
 
-Rule 0     S' -> statement
-Rule 1     statement -> select_statement
-Rule 2     select_statement -> SELECT FROM
+Rule 0     S' -> select_statement
+Rule 1     select_statement -> SELECT columns FROM table where_clause
+Rule 2     columns -> STAR
+Rule 3     columns -> column_list
+Rule 4     column_list -> ID
+Rule 5     column_list -> ID COMMA column_list
+Rule 6     table -> ID
+Rule 7     where_clause -> WHERE condition
+Rule 8     condition -> comparison_condition
+Rule 9     condition -> logical_condition
+Rule 10    comparison_condition -> value EQ value
+Rule 11    comparison_condition -> value NEQ value
+Rule 12    comparison_condition -> value LE value
+Rule 13    comparison_condition -> value GE value
+Rule 14    comparison_condition -> value LT value
+Rule 15    comparison_condition -> value GT value
+Rule 16    logical_condition -> condition AND condition
+Rule 17    logical_condition -> condition OR condition
+Rule 18    logical_condition -> NOT condition
+Rule 19    value -> NUMBER
+Rule 20    value -> FLOAT
+Rule 21    value -> STRING
+Rule 22    value -> ID
 
 Terminals, with rules where they appear
 
-BIGINT               : 
-COMMA                : 
-COMMENT              : 
+ADD                  : 
+ALTER                : 
+AND                  : 16
+ASC                  : 
+BY                   : 
+COLUMN               : 
+COMMA                : 5
 CREATE               : 
 DELETE               : 
-DIVIDE               : 
-ELSE                 : 
-EQUAL                : 
-FLOAT                : 
-FOR                  : 
-FROM                 : 2
-ID                   : 
-IF                   : 
+DESC                 : 
+DROP                 : 
+EQ                   : 10
+FLOAT                : 20
+FOREIGN              : 
+FROM                 : 1
+FULL                 : 
+GE                   : 13
+GROUP                : 
+GT                   : 15
+HAVING               : 
+ID                   : 4 5 6 22
+INNER                : 
 INSERT               : 
+INTO                 : 
+JOIN                 : 
+KEY                  : 
+LE                   : 12
+LEFT                 : 
+LIMIT                : 
 LPAREN               : 
-MINUS                : 
-NUMBER               : 
-PLUS                 : 
-PRINT                : 
+LT                   : 14
+NEQ                  : 11
+NOT                  : 18
+NUMBER               : 19
+ON                   : 
+OR                   : 17
+ORDER                : 
+OUTER                : 
+PRIMARY              : 
+REFERENCES           : 
+RIGHT                : 
 RPAREN               : 
-SELECT               : 2
-STRING               : 
+SELECT               : 1
+SEMICOLON            : 
+SET                  : 
+STRING               : 21
 TABLE                : 
-THEN                 : 
-TIMES                : 
-WHERE                : 
-WHILE                : 
+UPDATE               : 
+VALUES               : 
+WHERE                : 7
 error                : 
 
 Nonterminals, with rules where they appear
 
-select_statement     : 1
-statement            : 0
-
-Parsing method: LALR
-
-state 0
-
-    (0) S' -> . statement
-    (1) statement -> . select_statement
-    (2) select_statement -> . SELECT FROM
-
-    SELECT          shift and go to state 3
-
-    statement                      shift and go to state 1
-    select_statement               shift and go to state 2
-
-state 1
-
-    (0) S' -> statement .
-
-
-
-state 2
-
-    (1) statement -> select_statement .
-
-    $end            reduce using rule 1 (statement -> select_statement .)
-
-
-state 3
-
-    (2) select_statement -> SELECT . FROM
-
-    FROM            shift and go to state 4
-
-
-state 4
-
-    (2) select_statement -> SELECT FROM .
-
-    $end            reduce using rule 2 (select_statement -> SELECT FROM .)
+STAR                 : 2
+column_list          : 3 5
+columns              : 1
+comparison_condition : 8
+condition            : 7 16 16 17 17 18
+logical_condition    : 9
+select_statement     : 0
+table                : 1
+value                : 10 10 11 11 12 12 13 13 14 14 15 15
+where_clause         : 1
 

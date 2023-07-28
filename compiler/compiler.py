@@ -58,7 +58,7 @@ class Ventana(QMainWindow):
         self.lbl_Fuente.setGeometry(80, 40, 300, 60)
         self.lbl_Fuente.setFont(QtGui.QFont('SansSerif', 11))
 
-        self.lbl_fileError = QLabel("CONTENIDO DEL ARCHIVO ERROR: ", self)
+        self.lbl_fileError = QLabel("ANALIZADOR SINTACTICO: ", self)
         self.lbl_fileError.setGeometry(80, 335, 300, 60)
         self.lbl_fileError.setFont(QtGui.QFont('SansSerif', 11))
 
@@ -79,6 +79,12 @@ class Ventana(QMainWindow):
     
     def escribirAreaLexema(self, texto):
         self.txtAreaLexema.setText( texto )
+
+    def escribirAreaFileError(self, texto):
+        self.txtAreaFileError.setText( texto )
+
+    def escribirAreaResultado(self, texto):
+        self.txtAreaResultado.setText( texto )
     
     def getTextAreaLexema(self):
         return self.txtAreaLexema.toPlainText()

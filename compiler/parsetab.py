@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'BIGINT COMMA COMMENT CREATE DELETE DIVIDE ELSE EQUAL FLOAT FOR FROM ID IF INSERT LPAREN MINUS NUMBER PLUS PRINT RPAREN SELECT STRING TABLE THEN TIMES WHERE WHILE\n    statement : select_statement\n    \n    select_statement : SELECT FROM\n    '
+_lr_signature = 'ADD ALTER AND ASC BY COLUMN COMMA CREATE DELETE DESC DROP EQ FLOAT FOREIGN FROM FULL GE GROUP GT HAVING ID INNER INSERT INTO JOIN KEY LE LEFT LIMIT LPAREN LT NEQ NOT NUMBER ON OR ORDER OUTER PRIMARY REFERENCES RIGHT RPAREN SELECT SEMICOLON SET STRING TABLE UPDATE VALUES WHEREstatement : select_statement\n                 | insert_statement\n                 | update_statement\n                 | delete_statementselect_statement : SELECT columns FROM table\n                        | SELECT columns FROM table where_clauseinsert_statement : INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values RPARENupdate_statement : UPDATE table SET assignments where_clausedelete_statement : DELETE FROM table where_clausecolumns : ID\n               | ID COMMA columnsvalues : value\n              | value COMMA valuesassignments : ID EQ value\n                   | ID EQ value COMMA assignmentstable : IDwhere_clause : WHERE conditioncondition : comparison_condition\n                 | logical_conditioncomparison_condition : value EQ value\n                            | value NEQ value\n                            | value LE value\n                            | value GE value\n                            | value LT value\n                            | value GT valuelogical_condition : condition AND condition\n                         | condition OR condition\n                         | NOT conditionvalue : NUMBER\n             | FLOAT\n             | STRING\n             | ID'
     
-_lr_action_items = {'SELECT':([0,],[3,]),'$end':([1,2,4,],[0,-1,-2,]),'FROM':([3,],[4,]),}
+_lr_action_items = {'SELECT':([0,],[6,]),'INSERT':([0,],[7,]),'UPDATE':([0,],[8,]),'DELETE':([0,],[9,]),'$end':([1,2,3,4,5,14,21,26,28,30,32,33,34,37,38,39,40,51,54,55,56,57,58,59,60,61,66,],[0,-1,-2,-3,-4,-16,-5,-9,-6,-8,-17,-18,-19,-29,-30,-31,-32,-28,-26,-27,-20,-21,-22,-23,-24,-25,-7,]),'ID':([6,8,12,15,16,17,19,23,27,31,36,43,44,45,46,47,48,49,50,53,62,67,],[11,14,14,14,14,11,25,11,40,40,40,40,40,40,40,40,40,40,40,25,40,40,]),'INTO':([7,],[12,]),'FROM':([9,10,11,22,],[15,16,-10,-11,]),'RPAREN':([11,22,29,37,38,39,40,64,65,68,],[-10,-11,41,-29,-30,-31,-32,66,-12,-13,]),'COMMA':([11,37,38,39,40,42,65,],[17,-29,-30,-31,-32,53,67,]),'SET':([13,14,],[19,-16,]),'LPAREN':([14,18,52,],[-16,23,62,]),'WHERE':([14,20,21,24,37,38,39,40,42,63,],[-16,27,27,27,-29,-30,-31,-32,-14,-15,]),'EQ':([25,35,37,38,39,40,],[31,45,-29,-30,-31,-32,]),'NOT':([27,36,43,44,],[36,36,36,36,]),'NUMBER':([27,31,36,43,44,45,46,47,48,49,50,62,67,],[37,37,37,37,37,37,37,37,37,37,37,37,37,]),'FLOAT':([27,31,36,43,44,45,46,47,48,49,50,62,67,],[38,38,38,38,38,38,38,38,38,38,38,38,38,]),'STRING':([27,31,36,43,44,45,46,47,48,49,50,62,67,],[39,39,39,39,39,39,39,39,39,39,39,39,39,]),'AND':([32,33,34,37,38,39,40,51,54,55,56,57,58,59,60,61,],[43,-18,-19,-29,-30,-31,-32,43,43,43,-20,-21,-22,-23,-24,-25,]),'OR':([32,33,34,37,38,39,40,51,54,55,56,57,58,59,60,61,],[44,-18,-19,-29,-30,-31,-32,44,44,44,-20,-21,-22,-23,-24,-25,]),'NEQ':([35,37,38,39,40,],[46,-29,-30,-31,-32,]),'LE':([35,37,38,39,40,],[47,-29,-30,-31,-32,]),'GE':([35,37,38,39,40,],[48,-29,-30,-31,-32,]),'LT':([35,37,38,39,40,],[49,-29,-30,-31,-32,]),'GT':([35,37,38,39,40,],[50,-29,-30,-31,-32,]),'VALUES':([41,],[52,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'select_statement':([0,],[2,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'select_statement':([0,],[2,]),'insert_statement':([0,],[3,]),'update_statement':([0,],[4,]),'delete_statement':([0,],[5,]),'columns':([6,17,23,],[10,22,29,]),'table':([8,12,15,16,],[13,18,20,21,]),'assignments':([19,53,],[24,63,]),'where_clause':([20,21,24,],[26,28,30,]),'condition':([27,36,43,44,],[32,51,54,55,]),'comparison_condition':([27,36,43,44,],[33,33,33,33,]),'logical_condition':([27,36,43,44,],[34,34,34,34,]),'value':([27,31,36,43,44,45,46,47,48,49,50,62,67,],[35,42,35,35,35,56,57,58,59,60,61,65,65,]),'values':([62,67,],[64,68,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,6 +27,36 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> select_statement','statement',1,'p_statement','parser_1.py',7),
-  ('select_statement -> SELECT FROM','select_statement',2,'p_select_statement','parser_1.py',13),
+  ('statement -> select_statement','statement',1,'p_statement','parser_1.py',6),
+  ('statement -> insert_statement','statement',1,'p_statement','parser_1.py',7),
+  ('statement -> update_statement','statement',1,'p_statement','parser_1.py',8),
+  ('statement -> delete_statement','statement',1,'p_statement','parser_1.py',9),
+  ('select_statement -> SELECT columns FROM table','select_statement',4,'p_select_statement','parser_1.py',13),
+  ('select_statement -> SELECT columns FROM table where_clause','select_statement',5,'p_select_statement','parser_1.py',14),
+  ('insert_statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values RPAREN','insert_statement',10,'p_insert_statement','parser_1.py',21),
+  ('update_statement -> UPDATE table SET assignments where_clause','update_statement',5,'p_update_statement','parser_1.py',25),
+  ('delete_statement -> DELETE FROM table where_clause','delete_statement',4,'p_delete_statement','parser_1.py',29),
+  ('columns -> ID','columns',1,'p_columns','parser_1.py',33),
+  ('columns -> ID COMMA columns','columns',3,'p_columns','parser_1.py',34),
+  ('values -> value','values',1,'p_values','parser_1.py',41),
+  ('values -> value COMMA values','values',3,'p_values','parser_1.py',42),
+  ('assignments -> ID EQ value','assignments',3,'p_assignments','parser_1.py',49),
+  ('assignments -> ID EQ value COMMA assignments','assignments',5,'p_assignments','parser_1.py',50),
+  ('table -> ID','table',1,'p_table','parser_1.py',57),
+  ('where_clause -> WHERE condition','where_clause',2,'p_where_clause','parser_1.py',61),
+  ('condition -> comparison_condition','condition',1,'p_condition','parser_1.py',65),
+  ('condition -> logical_condition','condition',1,'p_condition','parser_1.py',66),
+  ('comparison_condition -> value EQ value','comparison_condition',3,'p_comparison_condition','parser_1.py',70),
+  ('comparison_condition -> value NEQ value','comparison_condition',3,'p_comparison_condition','parser_1.py',71),
+  ('comparison_condition -> value LE value','comparison_condition',3,'p_comparison_condition','parser_1.py',72),
+  ('comparison_condition -> value GE value','comparison_condition',3,'p_comparison_condition','parser_1.py',73),
+  ('comparison_condition -> value LT value','comparison_condition',3,'p_comparison_condition','parser_1.py',74),
+  ('comparison_condition -> value GT value','comparison_condition',3,'p_comparison_condition','parser_1.py',75),
+  ('logical_condition -> condition AND condition','logical_condition',3,'p_logical_condition','parser_1.py',79),
+  ('logical_condition -> condition OR condition','logical_condition',3,'p_logical_condition','parser_1.py',80),
+  ('logical_condition -> NOT condition','logical_condition',2,'p_logical_condition','parser_1.py',81),
+  ('value -> NUMBER','value',1,'p_value','parser_1.py',88),
+  ('value -> FLOAT','value',1,'p_value','parser_1.py',89),
+  ('value -> STRING','value',1,'p_value','parser_1.py',90),
+  ('value -> ID','value',1,'p_value','parser_1.py',91),
 ]
